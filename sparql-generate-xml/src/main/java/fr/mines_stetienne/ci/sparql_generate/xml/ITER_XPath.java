@@ -180,9 +180,11 @@ public class ITER_XPath extends IteratorFunctionBase {
         	//to clean the xmlString
         	TagNode tagNode = new HtmlCleaner(props).clean(xmlString);
             String xmlStringCleaned= new PrettyXmlSerializer(props).getAsString(tagNode);
-        	//********            
-            
-            InputStream is = new ByteArrayInputStream(xmlStringCleaned.getBytes("UTF-8"));
+        	//********     
+
+            //using the xml raw string instead of the cleaned (may not work for all documents, but works for camel case xml node names)
+            InputStream is = new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
+            //********
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             Document document = builder.parse(is);
             XPath xPath = XPathFactory.newInstance().newXPath();
